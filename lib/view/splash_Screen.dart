@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:chat_app/Authentication/LogIn_screen.dart';
+import 'package:chat_app/view/Home_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'liquid_transtion.dart';
@@ -18,7 +20,28 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   void initState() {
+    // TODO: implement initState
+    Timer(Duration(seconds: 5), (){
+      FirebaseAuth.instance.authStateChanges().listen((user) async
+      {
+        if (user == null) {
+          Navigator.pushAndRemoveUntil(
+              context, MaterialPageRoute(builder: (_) => loginscreen()), (
+              route) => false);
+
+        }
+        else
+        {
+          Navigator.pushAndRemoveUntil(
+              context, MaterialPageRoute(builder: (_) => HomeScreen()), (
+              route) => false);
+
+        }
+      });
+    }
+    );
     super.initState();
+
     _controller = AnimationController(
       vsync: this,
       duration: Duration(seconds: 2),
@@ -39,7 +62,10 @@ class _SplashScreenState extends State<SplashScreen>
       );
 
     });
+
+    super.initState();
   }
+
 
   @override
   void dispose() {
@@ -59,19 +85,13 @@ class _SplashScreenState extends State<SplashScreen>
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
-              // boxShadow: [
-              //   BoxShadow(
-              //     color: Colors.grey.withOpacity(0.3),
-              //     blurRadius: 10,
-              //     spreadRadius: 5,
-              //   ),
-              // ],
+
             ),
             padding: EdgeInsets.all(20),
 
 
 
-    child: Image.asset('assets/logo.png',scale: 1,),),
+    child: Image.asset('images/chat.png'),),
 
           )));
   }

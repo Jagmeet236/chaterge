@@ -1,14 +1,11 @@
+
+
 import 'package:chat_app/Authentication/Firebase_functions.dart';
 import 'package:chat_app/Authentication/SignUp_screen.dart';
 import 'package:chat_app/view/Home_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../view/liquid_transtion.dart';
-
-
-
-
-
 
 class loginscreen extends StatefulWidget {
   const loginscreen({Key? key}) : super(key: key);
@@ -27,49 +24,56 @@ class _loginscreenState extends State<loginscreen> {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        centerTitle: false,
+        title: const Text(
+          "Welcome To Chaterge...",
+          style: TextStyle(
+              letterSpacing: 1, fontSize: 25, fontWeight: FontWeight.w400),
+        ),
+        elevation: 0,
+      ),
       body: isLoading
           ? Center(
               child: Container(
                 height: size.height / 20,
                 width: size.height / 20,
-                child: CircularProgressIndicator(),
+                child: const CircularProgressIndicator(),
               ),
             )
           : SingleChildScrollView(
               child: Column(
                 children: [
-                  SizedBox(
-                    height: size.height / 10,
+                  Padding(
+                    padding: const EdgeInsets.only(top: 18.0),
+                    child: Container(
+                        child: const Image(
+                      width: 200,
+                      height: 200,
+                      image: AssetImage("images/chat.png"),
+                    )),
+                  ),
+                  const SizedBox(
+                    height: 14,
                   ),
                   Container(
                     width: size.width / 1.1,
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
+                      padding: const EdgeInsets.only(top: 5.0),
                       child: Text(
-                        "Welcome...",
+                        "Sign In ",
                         style: TextStyle(
-                            fontSize: 34,
-                            fontWeight: FontWeight.bold,
+                            color: Colors.grey.shade700,
+                            fontSize: 26,
+                            fontWeight: FontWeight.w500,
                             letterSpacing: 1),
                       ),
                     ),
                   ),
                   SizedBox(
-                    height: size.height / 50,
-                  ),
-                  Container(
-                    width: size.width / 1.1,
-                    child: Text(
-                      "Sign In ",
-                      style: TextStyle(
-                          color: Colors.grey[700],
-                          fontSize: 26,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 1),
-                    ),
-                  ),
-                  SizedBox(
-                    height: size.height / 15,
+                    height: size.height / 30,
                   ),
                   Container(
                     width: size.width,
@@ -85,12 +89,47 @@ class _loginscreenState extends State<loginscreen> {
                     ),
                   ),
                   SizedBox(
-                    height: size.height / 20,
+                    height: size.height / 50,
                   ),
                   customButton(size),
                   SizedBox(
-                    height: size.height / 40,
+                    height: size.height / 50,
                   ),
+                 const Text("OR"),
+                  SizedBox(height: size.height/50,),
+                  Container(
+                    height: 40,
+                    child: Center(
+
+                      child: FloatingActionButton.extended (
+                        elevation: 1,
+                          onPressed: ()
+                      {
+
+
+                      },
+                          backgroundColor: Colors.white,
+
+                          // icon: Icon(Icons.add),
+                          label:const Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+
+                                CircleAvatar(radius: 20, backgroundColor:Colors.white,child: Image(height: 20,
+                                  image: AssetImage('images/google.png'),)),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 12.0,top: 12),
+                                  child: Text('Google Sign In',style: TextStyle(color: Colors.grey,letterSpacing: 1.5),),
+                                )
+                              ]
+                          )
+                      ),
+
+
+                    ),
+                  ),
+                  SizedBox(height: size.height/50,),
                   GestureDetector(
                     onTap: () => Navigator.pushReplacement(
                       context,
@@ -98,13 +137,21 @@ class _loginscreenState extends State<loginscreen> {
                         builder: (context) => signup(),
                       ),
                     ),
-                    child: Text(
-                      "Create Account",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 1.1),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            "Create Account",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                letterSpacing: 1.1),
+                          ),
+                        ),
+                      ],
                     ),
                   )
                 ],
@@ -130,7 +177,7 @@ class _loginscreenState extends State<loginscreen> {
               Navigator.pushReplacement(
                 context,
                 FadePageRoute(
-                  builder: (context) => HomeScreen(),
+                  builder: (context) => const HomeScreen(),
                 ),
               ).whenComplete(() => password.clear());
             } else {
@@ -145,7 +192,6 @@ class _loginscreenState extends State<loginscreen> {
         }
       },
       child: Card(
-
         child: Container(
             height: size.height / 14,
             width: size.width / 1.2,
@@ -157,12 +203,12 @@ class _loginscreenState extends State<loginscreen> {
             child: Text(
               "Login",
               style: TextStyle(
-                  color: Colors.black,
+                  color: Colors.grey.shade700,
                   fontSize: 18,
-                  fontWeight: FontWeight.bold,
+
                   letterSpacing: 1.4),
             )),
-        elevation: 3,
+        elevation: 1,
       ),
     );
   }
@@ -177,7 +223,7 @@ class _loginscreenState extends State<loginscreen> {
         decoration: InputDecoration(
           prefixIcon: Icon(icon),
           hintText: hintText,
-          hintStyle: TextStyle(color: Colors.grey),
+          hintStyle: const TextStyle(color: Colors.grey),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -185,6 +231,4 @@ class _loginscreenState extends State<loginscreen> {
       ),
     );
   }
-
-
 }

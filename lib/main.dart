@@ -1,12 +1,8 @@
-
-
 import 'package:chat_app/view/splash_Screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'Authentication/Login_screen.dart';
-
+late Size mq;
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Firebase.initializeApp();
@@ -23,12 +19,19 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-
-    return   MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-     home: SplashScreen(),
-
-
+      title: "Chaterge",
+      theme: ThemeData(
+        appBarTheme: const AppBarTheme(
+         titleTextStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.normal,fontSize: 16),
+          centerTitle: true,
+          elevation: 1,
+          iconTheme: IconThemeData(color: Colors.black),
+          backgroundColor: Colors.white,
+        )
+      ),
+      home: SplashScreen(),
     );
   }
 }

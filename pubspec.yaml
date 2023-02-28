@@ -30,12 +30,13 @@ dependencies:
   uuid:
   flutter_animated_icons:
   liquid_swipe:
+  custom_floating_action_button:
 
-#flutter_icons:
-#  android: "ic_launcher"
-#  ios: true
-#  image_path: "images/icon.png"
-#  min_sdk_android: 21
+flutter_icons:
+  android: "ic_launcher"
+  ios: true
+  image_path: "images/chat.png"
+  min_sdk_android: 21
 
 
   # The following adds the Cupertino Icons font to your application.
