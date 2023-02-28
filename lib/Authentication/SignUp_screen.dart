@@ -5,9 +5,6 @@ import 'package:flutter/material.dart';
 
 import '../view/liquid_transtion.dart';
 
-
-
-
 class signup extends StatefulWidget {
   @override
   _signupState createState() => _signupState();
@@ -29,7 +26,7 @@ class _signupState extends State<signup> {
               child: Container(
                 height: size.height / 20,
                 width: size.height / 20,
-                child: CircularProgressIndicator(),
+                child: const CircularProgressIndicator(),
               ),
             )
           : SingleChildScrollView(
@@ -42,12 +39,12 @@ class _signupState extends State<signup> {
                     alignment: Alignment.centerLeft,
                     width: size.width / 0.5,
                     child: IconButton(
-                        icon: Icon(Icons.arrow_back_ios),
+                        icon: const Icon(Icons.arrow_back_ios),
                         onPressed: () {
                           Navigator.pushReplacement(
                             context,
                             FadePageRoute(
-                              builder: (context) =>loginscreen(),
+                              builder: (context) => const loginscreen(),
                             ),
                           );
                         }),
@@ -57,8 +54,8 @@ class _signupState extends State<signup> {
                   ),
                   Container(
                     width: size.width / 1.1,
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 10.0),
+                    child: const Padding(
+                      padding: EdgeInsets.only(bottom: 10.0),
                       child: Text(
                         "Welcome...",
                         style: TextStyle(
@@ -110,13 +107,13 @@ class _signupState extends State<signup> {
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: GestureDetector(
-                      onTap: () =>Navigator.pushReplacement(
+                      onTap: () => Navigator.pushReplacement(
                         context,
-                        FadePageRoute(
-                          builder: (context) => loginscreen(),
+                        SlideTopRoute(
+                          builder: (context) => const loginscreen(),
                         ),
                       ),
-                      child: Text(
+                      child: const Text(
                         "Login",
                         style: TextStyle(
                             color: Colors.black,
@@ -150,7 +147,7 @@ class _signupState extends State<signup> {
               Navigator.pushReplacement(
                 context,
                 FadePageRoute(
-                  builder: (context) => HomeScreen(),
+                  builder: (context) => const HomeScreen(),
                 ),
               ).whenComplete(() => password.clear());
             } else {
@@ -165,23 +162,24 @@ class _signupState extends State<signup> {
         }
       },
       child: Card(
-        child: Container(
-            height: size.height / 14,
-            width: size.width / 1.2,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: Colors.white54,
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              "Create Account",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.1),
-            )),
         elevation: 3,
+        child: Container(
+          height: size.height / 14,
+          width: size.width / 1.2,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            color: Colors.white54,
+          ),
+          alignment: Alignment.center,
+          child: const Text(
+            "Create Account",
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1.1),
+          ),
+        ),
       ),
     );
   }
@@ -196,7 +194,7 @@ class _signupState extends State<signup> {
         decoration: InputDecoration(
           prefixIcon: Icon(icon),
           hintText: hintText,
-          hintStyle: TextStyle(color: Colors.grey),
+          hintStyle: const TextStyle(color: Colors.grey),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -204,6 +202,4 @@ class _signupState extends State<signup> {
       ),
     );
   }
-
-
 }
