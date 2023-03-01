@@ -96,7 +96,7 @@ class _ImageSlideAnimationState extends State<ImageSlideAnimation>
       height: widget.height,
       child: SlideTransition(
         position: _animation,
-        child:Image.asset(
+        child: Image.asset(
           widget.assetName,
         ),
       ),

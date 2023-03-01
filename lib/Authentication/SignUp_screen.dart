@@ -8,7 +8,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../animation/animation_screen.dart';
 import '../animation/page-transition_screen.dart';
 
-
 class signup extends StatefulWidget {
   @override
   _signupState createState() => _signupState();
@@ -34,15 +33,18 @@ class _signupState extends State<signup> {
           style: TextStyle(
               letterSpacing: 1, fontSize: 25, fontWeight: FontWeight.w400),
         ),
-        actions: [ IconButton(onPressed: () {
-          Navigator.pushReplacement(
-            context,
-            SlideTopRoute(
-              builder: (context) => const loginscreen(),
-            ),
-          );
-        },
-            icon: const Icon(CupertinoIcons.back)),],
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  SlideTopRoute(
+                    builder: (context) => const loginscreen(),
+                  ),
+                );
+              },
+              icon: const Icon(CupertinoIcons.back)),
+        ],
         elevation: 0,
       ),
       body: isLoading
@@ -56,26 +58,22 @@ class _signupState extends State<signup> {
           : SingleChildScrollView(
               child: Column(
                 children: [
-
                   SizedBox(
                     height: size.height / 80,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 10.0),
-
                     child: Container(
-                        width:size.width/1,
+                        width: size.width / 1,
                         // height: size.height/4,
-                        child:ImageSlideAnimation(
-                          assetName:'images/chat.png',
-                          height: size.height/4,
-                        )
-                    ),
+                        child: ImageSlideAnimation(
+                          assetName: 'images/chat.png',
+                          height: size.height / 4,
+                        )),
                   ),
                   SizedBox(
                     height: size.height / 20,
                   ),
-
                   Container(
                     width: size.width / 1.1,
                     child: Text(
@@ -87,9 +85,9 @@ class _signupState extends State<signup> {
                           letterSpacing: 1.1),
                     ),
                   ),
-SizedBox(height: size.height/80,),
-
-
+                  SizedBox(
+                    height: size.height / 80,
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 18.0),
                     child: Container(
@@ -119,14 +117,12 @@ SizedBox(height: size.height/80,),
                     height: size.height / 30,
                   ),
                   Container(
-                    width: size.width/1.1,
+                    width: size.width / 1.1,
                     child: const Divider(
                       color: Colors.grey,
                       height: 10.0,
-
                     ),
                   ),
-
                   Padding(
                     padding: const EdgeInsets.only(top: 30.0),
                     child: GestureDetector(
@@ -138,7 +134,7 @@ SizedBox(height: size.height/80,),
                       ),
                       child: Text(
                         "Have An Account?",
-                        style:GoogleFonts.actor(
+                        style: GoogleFonts.actor(
                           fontSize: 20,
                           fontWeight: FontWeight.w500,
                           // fontStyle: FontStyle.italic,
@@ -196,7 +192,11 @@ SizedBox(height: size.height/80,),
           alignment: Alignment.center,
           child: const Text(
             "Create Account",
-            style: TextStyle(fontSize: 18, letterSpacing: 1.4,color:Colors.black54,),
+            style: TextStyle(
+              fontSize: 18,
+              letterSpacing: 1.4,
+              color: Colors.black54,
+            ),
           ),
         ),
       ),

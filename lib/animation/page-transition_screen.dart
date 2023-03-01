@@ -33,7 +33,6 @@ class _LiquidTransitionPageState extends State<LiquidTransitionPage> {
   }
 }
 
-
 class SlideTopRoute<T> extends MaterialPageRoute<T> {
   SlideTopRoute({required WidgetBuilder builder, RouteSettings? settings})
       : super(builder: builder, settings: settings);
@@ -50,6 +49,7 @@ class SlideTopRoute<T> extends MaterialPageRoute<T> {
     );
   }
 }
+
 class FadePageRoute<T> extends MaterialPageRoute<T> {
   FadePageRoute({required WidgetBuilder builder, RouteSettings? settings})
       : super(builder: builder, settings: settings);
