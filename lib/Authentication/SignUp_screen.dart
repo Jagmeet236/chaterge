@@ -1,9 +1,13 @@
 import 'package:chat_app/Authentication/Firebase_functions.dart';
 import 'package:chat_app/Authentication/LogIn_screen.dart';
 import 'package:chat_app/view/Home_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-import '../view/liquid_transtion.dart';
+import '../animation/animation_screen.dart';
+import '../animation/page-transition_screen.dart';
+
 
 class signup extends StatefulWidget {
   @override
@@ -21,6 +25,26 @@ class _signupState extends State<signup> {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        centerTitle: false,
+        title: const Text(
+          "Welcome To Chaterge...",
+          style: TextStyle(
+              letterSpacing: 1, fontSize: 25, fontWeight: FontWeight.w400),
+        ),
+        actions: [ IconButton(onPressed: () {
+          Navigator.pushReplacement(
+            context,
+            SlideTopRoute(
+              builder: (context) => const loginscreen(),
+            ),
+          );
+        },
+            icon: const Icon(CupertinoIcons.back)),],
+        elevation: 0,
+      ),
       body: isLoading
           ? Center(
               child: Container(
@@ -32,53 +56,40 @@ class _signupState extends State<signup> {
           : SingleChildScrollView(
               child: Column(
                 children: [
+
+                  SizedBox(
+                    height: size.height / 80,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+
+                    child: Container(
+                        width:size.width/1,
+                        // height: size.height/4,
+                        child:ImageSlideAnimation(
+                          assetName:'images/chat.png',
+                          height: size.height/4,
+                        )
+                    ),
+                  ),
                   SizedBox(
                     height: size.height / 20,
                   ),
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    width: size.width / 0.5,
-                    child: IconButton(
-                        icon: const Icon(Icons.arrow_back_ios),
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            FadePageRoute(
-                              builder: (context) => const loginscreen(),
-                            ),
-                          );
-                        }),
-                  ),
-                  SizedBox(
-                    height: size.height / 50,
-                  ),
-                  Container(
-                    width: size.width / 1.1,
-                    child: const Padding(
-                      padding: EdgeInsets.only(bottom: 10.0),
-                      child: Text(
-                        "Welcome...",
-                        style: TextStyle(
-                            fontSize: 34,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1),
-                      ),
-                    ),
-                  ),
+
                   Container(
                     width: size.width / 1.1,
                     child: Text(
                       "Create An Account to Contiue!",
                       style: TextStyle(
                           color: Colors.grey[700],
-                          fontSize: 20,
+                          fontSize: 18,
                           fontWeight: FontWeight.w500,
                           letterSpacing: 1.1),
                     ),
                   ),
-                  SizedBox(
-                    height: size.height / 20,
-                  ),
+SizedBox(height: size.height/80,),
+
+
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 18.0),
                     child: Container(
@@ -101,11 +112,23 @@ class _signupState extends State<signup> {
                     ),
                   ),
                   SizedBox(
-                    height: size.height / 20,
+                    height: size.height / 300,
                   ),
                   customButton(size),
+                  SizedBox(
+                    height: size.height / 30,
+                  ),
+                  Container(
+                    width: size.width/1.1,
+                    child: const Divider(
+                      color: Colors.grey,
+                      height: 10.0,
+
+                    ),
+                  ),
+
                   Padding(
-                    padding: const EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.only(top: 30.0),
                     child: GestureDetector(
                       onTap: () => Navigator.pushReplacement(
                         context,
@@ -113,13 +136,13 @@ class _signupState extends State<signup> {
                           builder: (context) => const loginscreen(),
                         ),
                       ),
-                      child: const Text(
-                        "Login",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 1),
+                      child: Text(
+                        "Have An Account?",
+                        style:GoogleFonts.actor(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          // fontStyle: FontStyle.italic,
+                        ),
                       ),
                     ),
                   )
@@ -162,7 +185,7 @@ class _signupState extends State<signup> {
         }
       },
       child: Card(
-        elevation: 3,
+        elevation: 1,
         child: Container(
           height: size.height / 14,
           width: size.width / 1.2,
@@ -173,11 +196,7 @@ class _signupState extends State<signup> {
           alignment: Alignment.center,
           child: const Text(
             "Create Account",
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.1),
+            style: TextStyle(fontSize: 18, letterSpacing: 1.4,color:Colors.black54,),
           ),
         ),
       ),

@@ -60,7 +60,9 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(onPressed: () {}, icon: const Icon(CupertinoIcons.search)),
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                logOut(context);
+              },
               icon: const Icon(CupertinoIcons.ellipsis_vertical)),
         ],
       ),
