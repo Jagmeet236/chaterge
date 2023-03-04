@@ -23,19 +23,32 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
 
+
     Timer(const Duration(seconds: 5), (){
+
+    // TODO: implement initState
+    Timer(Duration(seconds: 5), (){
+
       FirebaseAuth.instance.authStateChanges().listen((user) async
       {
         if (user == null) {
           Navigator.pushAndRemoveUntil(
+
               context, MaterialPageRoute(builder: (_) => const loginscreen()), (
+
+              context, MaterialPageRoute(builder: (_) => loginscreen()), (
+
               route) => false);
 
         }
         else
         {
           Navigator.pushAndRemoveUntil(
+
               context, MaterialPageRoute(builder: (_) => const HomeScreen()), (
+
+              context, MaterialPageRoute(builder: (_) => HomeScreen()), (
+
               route) => false);
 
         }
@@ -96,6 +109,15 @@ class _SplashScreenState extends State<SplashScreen>
 
 
 
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+
+            ),
+            padding: EdgeInsets.all(20),
+
+
+
     child: Image.asset('images/chat.png'),),
               SizedBox(height:15 ,),
              Text(
@@ -108,6 +130,10 @@ class _SplashScreenState extends State<SplashScreen>
               ),
             ],
           ),
+
+
+
+    child: Image.asset('images/chat.png'),),
 
 
           )));

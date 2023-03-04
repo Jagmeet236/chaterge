@@ -5,8 +5,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+
 import '../animation/animation_screen.dart';
 import '../animation/page-transition_screen.dart';
+import '../view/liquid_transtion.dart';
+
 
 class signup extends StatefulWidget {
   @override
@@ -61,6 +64,7 @@ class _signupState extends State<signup> {
                   SizedBox(
                     height: size.height / 80,
                   ),
+
                   Padding(
                     padding: const EdgeInsets.only(top: 10.0),
                     child: Container(
@@ -73,6 +77,36 @@ class _signupState extends State<signup> {
                   ),
                   SizedBox(
                     height: size.height / 20,
+          Container(
+                    alignment: Alignment.centerLeft,
+                    width: size.width / 0.5,
+                    child: IconButton(
+                        icon: const Icon(Icons.arrow_back_ios),
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            FadePageRoute(
+                              builder: (context) => const loginscreen(),
+                            ),
+                          );
+                        }),
+                  ),
+                  SizedBox(
+                    height: size.height / 50,
+                  ),
+                  Container(
+                    width: size.width / 1.1,
+                    child: const Padding(
+                      padding: EdgeInsets.only(bottom: 10.0),
+                      child: Text(
+                        "Welcome...",
+                        style: TextStyle(
+                            fontSize: 34,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1),
+                      ),
+                    ),
+
                   ),
                   Container(
                     width: size.width / 1.1,
@@ -132,6 +166,7 @@ class _signupState extends State<signup> {
                           builder: (context) => const loginscreen(),
                         ),
                       ),
+
                       child: Text(
                         "Have An Account?",
                         style: GoogleFonts.actor(
@@ -139,6 +174,14 @@ class _signupState extends State<signup> {
                           fontWeight: FontWeight.w500,
                           // fontStyle: FontStyle.italic,
                         ),
+
+                      child: const Text(
+                        "Login",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 1),
                       ),
                     ),
                   )
@@ -181,7 +224,11 @@ class _signupState extends State<signup> {
         }
       },
       child: Card(
+
         elevation: 1,
+
+        elevation: 3,
+
         child: Container(
           height: size.height / 14,
           width: size.width / 1.2,
@@ -193,10 +240,17 @@ class _signupState extends State<signup> {
           child: const Text(
             "Create Account",
             style: TextStyle(
+
               fontSize: 18,
               letterSpacing: 1.4,
               color: Colors.black54,
             ),
+
+                color: Colors.black,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1.1),
+
           ),
         ),
       ),
