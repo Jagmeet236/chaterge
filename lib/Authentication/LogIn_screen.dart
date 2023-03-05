@@ -4,6 +4,11 @@ import 'package:chat_app/Authentication/Firebase_functions.dart';
 import 'package:chat_app/Authentication/SignUp_screen.dart';
 import 'package:chat_app/view/Home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+
+import '../animation/animation_screen.dart';
+import '../animation/page-transition_screen.dart';
 
 import '../view/liquid_transtion.dart';
 
@@ -49,11 +54,19 @@ class _loginscreenState extends State<loginscreen> {
                   Padding(
                     padding: const EdgeInsets.only(top: 18.0),
                     child: Container(
+    width: size.width / 1,
+                        // height: size.height/4,
+                        child: ImageSlideAnimation(
+                          assetName: 'images/chat.png',
+                          height: size.height / 4,
+                        )),
+
                         child: const Image(
                       width: 200,
                       height: 200,
                       image: AssetImage("images/chat.png"),
                     )),
+
                   ),
                   const SizedBox(
                     height: 14,
@@ -95,6 +108,55 @@ class _loginscreenState extends State<loginscreen> {
                   SizedBox(
                     height: size.height / 50,
                   ),
+
+                  const Text("OR"),
+                  SizedBox(
+                    height: size.height / 50,
+                  ),
+                  Container(
+                    height: 40,
+                    child: Center(
+                      child: FloatingActionButton.extended(
+                          elevation: 1,
+                          onPressed: () {},
+                          backgroundColor: Colors.white,
+
+                          // icon: Icon(Icons.add),
+                          label: const Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                CircleAvatar(
+                                    radius: 20,
+                                    backgroundColor: Colors.white,
+                                    child: Image(
+                                      height: 20,
+                                      image: AssetImage('images/google.png'),
+                                    )),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 12.0, top: 12),
+                                  child: Text(
+                                    'Google Sign In',
+                                    style: TextStyle(
+                                        color: Colors.grey, letterSpacing: 1.5),
+                                  ),
+                                )
+                              ])),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Container(
+                    width: size.width / 1.1,
+                    child: const Divider(
+                      color: Colors.grey,
+                      height: 10.0,
+                    ),
+                  ),
+                  SizedBox(
+                    height: size.height / 60,
+
                  const Text("OR"),
                   SizedBox(height: size.height/50,),
                   Container(
@@ -128,27 +190,41 @@ class _loginscreenState extends State<loginscreen> {
 
 
                     ),
+
                   ),
                   SizedBox(height: size.height/50,),
                   GestureDetector(
                     onTap: () => Navigator.pushReplacement(
                       context,
-                      FadePageRoute(
+                      SlideTopRoute(
                         builder: (context) => signup(),
                       ),
                     ),
-                    child: const Row(
+
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+           child: const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
+
                       children: [
                         Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Text(
+
+                            "Create An Account?",
+                            style: GoogleFonts.actor(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                              // fontStyle: FontStyle.italic,
+                            ),
+
                             "Create Account",
                             style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 18,
                                 fontWeight: FontWeight.w500,
                                 letterSpacing: 1.1),
+
                           ),
                         ),
                       ],
@@ -192,6 +268,22 @@ class _loginscreenState extends State<loginscreen> {
         }
       },
       child: Card(
+
+        elevation: 1,
+        child: Container(
+          height: size.height / 14,
+          width: size.width / 1.2,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.white54,
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            "Login",
+            style: TextStyle(
+                color: Colors.grey.shade700, fontSize: 18, letterSpacing: 1.4),
+          ),
+        ),
         child: Container(
             height: size.height / 14,
             width: size.width / 1.2,
@@ -209,6 +301,7 @@ class _loginscreenState extends State<loginscreen> {
                   letterSpacing: 1.4),
             )),
         elevation: 1,
+
       ),
     );
   }

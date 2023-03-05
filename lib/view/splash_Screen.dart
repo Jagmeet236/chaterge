@@ -3,8 +3,10 @@ import 'package:chat_app/Authentication/LogIn_screen.dart';
 import 'package:chat_app/view/Home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-import 'liquid_transtion.dart';
+import '../animation/page-transition_screen.dart';
+
 
 
 
@@ -20,20 +22,33 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   void initState() {
+
+
+    Timer(const Duration(seconds: 5), (){
+
     // TODO: implement initState
     Timer(Duration(seconds: 5), (){
+
       FirebaseAuth.instance.authStateChanges().listen((user) async
       {
         if (user == null) {
           Navigator.pushAndRemoveUntil(
+
+              context, MaterialPageRoute(builder: (_) => const loginscreen()), (
+
               context, MaterialPageRoute(builder: (_) => loginscreen()), (
+
               route) => false);
 
         }
         else
         {
           Navigator.pushAndRemoveUntil(
+
+              context, MaterialPageRoute(builder: (_) => const HomeScreen()), (
+
               context, MaterialPageRoute(builder: (_) => HomeScreen()), (
+
               route) => false);
 
         }
@@ -44,7 +59,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 2),
+      duration: const Duration(seconds: 2),
     );
     _animation = CurvedAnimation(
       parent: _controller,
@@ -53,11 +68,11 @@ class _SplashScreenState extends State<SplashScreen>
       setState(() {});
     });
     _controller.forward();
-    Timer(Duration(seconds: 5), () {
+    Timer(const Duration(seconds: 5), () {
       Navigator.pushReplacement(
         context,
         FadePageRoute(
-          builder: (context) => loginscreen(),
+          builder: (context) => const loginscreen(),
         ),
       );
 
@@ -80,7 +95,19 @@ class _SplashScreenState extends State<SplashScreen>
       body: Center(
         child: ScaleTransition(
           scale: _animation,
-          child: Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+
+                ),
+                padding: const EdgeInsets.all(20),
+
+
 
             decoration: BoxDecoration(
               color: Colors.white,
@@ -92,6 +119,22 @@ class _SplashScreenState extends State<SplashScreen>
 
 
     child: Image.asset('images/chat.png'),),
+              SizedBox(height:15 ,),
+             Text(
+                "Chaterge",
+                style: GoogleFonts.acme(
+                  fontSize: 30,
+                  fontWeight: FontWeight.w500,
+                  // fontStyle: FontStyle.italic,
+                ),
+              ),
+            ],
+          ),
+
+
+
+    child: Image.asset('images/chat.png'),),
+
 
           )));
   }
