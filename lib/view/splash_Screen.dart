@@ -1,14 +1,9 @@
-import 'dart:async';
 import 'package:chat_app/Authentication/LogIn_screen.dart';
 import 'package:chat_app/view/Home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../animation/page-transition_screen.dart';
-
-
-
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -22,52 +17,42 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   void initState() {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+    ));
 
-    Timer(const Duration(seconds: 5), (){
-      FirebaseAuth.instance.authStateChanges().listen((user) async
-      {
-        if (user == null) {
-          Navigator.pushAndRemoveUntil(
-              context, MaterialPageRoute(builder: (_) => const loginscreen()), (
-              route) => false);
+    super.initState();
 
-        }
-        else
-        {
-          Navigator.pushAndRemoveUntil(
-              context, MaterialPageRoute(builder: (_) => const HomeScreen()), (
-              route) => false);
-
+    // Create an animation controller and a bounce-in/bounce-out animation
+    _controller =
+        AnimationController(vsync: this, duration: const Duration(seconds: 3));
+    _animation = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.bounceInOut),
+    )..addStatusListener((status) {
+        // Navigate to the appropriate screen when5 the animation completes
+        if (status == AnimationStatus.completed) {
+          FirebaseAuth.instance.authStateChanges().listen((user) async {
+            if (user != null) {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const HomeScreen(),
+                ),
+              );
+            } else {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const loginscreen(),
+                ),
+              );
+            }
+          });
         }
       });
-    }
-    );
-    super.initState();
 
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 2),
-    );
-    _animation = CurvedAnimation(
-      parent: _controller,
-      curve: Curves.bounceInOut,
-    )..addListener(() {
-      setState(() {});
-    });
+    // Start the animation
     _controller.forward();
-    Timer(const Duration(seconds: 5), () {
-      Navigator.pushReplacement(
-        context,
-        FadePageRoute(
-          builder: (context) => const loginscreen(),
-        ),
-      );
-
-    });
-
-    super.initState();
   }
-
 
   @override
   void dispose() {
@@ -86,19 +71,19 @@ class _SplashScreenState extends State<SplashScreen>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
-
                 ),
                 padding: const EdgeInsets.all(20),
-
-
-
-    child: Image.asset('images/chat.png'),),
-              SizedBox(height:15 ,),
-             Text(
+                child: Image.asset(
+                  'images/chat.png',
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              Text(
                 "Chaterge",
                 style: GoogleFonts.acme(
                   fontSize: 30,
@@ -108,8 +93,8 @@ class _SplashScreenState extends State<SplashScreen>
               ),
             ],
           ),
-
-
-          )));
+        ),
+      ),
+    );
   }
 }

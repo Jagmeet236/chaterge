@@ -1,4 +1,5 @@
 import 'package:chat_app/Authentication/Firebase_functions.dart';
+import 'package:chat_app/widgets/chat_user_card.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -53,97 +54,37 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text('Home Screen'),
-        leading: const Icon(CupertinoIcons.home),
-        actions: [
-          IconButton(onPressed: () {}, icon: const Icon(CupertinoIcons.search)),
-          IconButton(
-              onPressed: () {
-                logOut(context);
-              },
-              icon: const Icon(CupertinoIcons.ellipsis_vertical)),
-        ],
-      ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 10.0),
-        child: FloatingActionButton(
-          onPressed: () {},
-          child: const Icon(
-            CupertinoIcons.add_circled_solid,
-
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: const Text('Home Screen'),
+          leading: const Icon(CupertinoIcons.home),
+          actions: [
+            IconButton(
+                onPressed: () {}, icon: const Icon(CupertinoIcons.search)),
+            IconButton(
+                onPressed: () {
+                  logOut(context);
+                },
+                icon: const Icon(CupertinoIcons.ellipsis_vertical)),
+          ],
+        ),
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.only(bottom: 10.0),
+          child: FloatingActionButton(
+            onPressed: () {},
+            child: const Icon(
+              CupertinoIcons.add_circled_solid,
+            ),
           ),
         ),
-      ),
-      body: isLoading
-          ? Center(
-              child: Container(
-                height: 50,
-                width: 120,
-                child: Container(
-                  child: const Center(child: Text("no user found")),
-                ),
-              ),
-            )
-          : Column(
-              children: [
-                SizedBox(
-                  height: size.height / 20,
-                ),
-                Container(
-                  height: size.height / 5,
-                  width: size.width,
-                  alignment: Alignment.center,
-                  child: Container(
-                    height: size.height / 14,
-                    width: size.width / 1.15,
-                    child: TextField(
-                      controller: _search,
-                      decoration: InputDecoration(
-                        hintText: "Search",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: size.height / 50,
-                ),
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.black),
-                  ),
-                  onPressed: onSearch,
-                  child: const Text("Submit"),
-                ),
-                SizedBox(
-                  height: size.height / 30,
-                ),
-                userMap != null
-                    ? ListTile(
-                        onTap: () {},
-                        leading:
-                            const Icon(Icons.account_box, color: Colors.black),
-                        title: Text(
-                          userMap!['name'],
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 17,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        subtitle: Text(userMap!['email']),
-                        trailing: const Icon(Icons.chat, color: Colors.black),
-                      )
-                    : Container(),
-
-                // TextButton(onPressed: (){
-                //   Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Home_screen()));}, child:Text("click me"))
-              ],
-            ),
-    );
+        body: Padding(
+          padding: EdgeInsets.only(top: size.height * 0.01),
+          child: ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              itemCount: 16,
+              itemBuilder: (context, index) {
+                return const ChatUserCard();
+              }),
+        ));
   }
 }

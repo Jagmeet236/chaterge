@@ -28,10 +28,12 @@ class _signupState extends State<signup> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: false,
-        title: const Text(
+        title: Text(
           "Welcome To Chaterge...",
-          style: TextStyle(
-              letterSpacing: 1, fontSize: 25, fontWeight: FontWeight.w400),
+          style: GoogleFonts.actor(
+              fontSize: 25, fontWeight: FontWeight.w500, letterSpacing: 1
+              // fontStyle: FontStyle.italic,
+              ),
         ),
         actions: [
           IconButton(
@@ -55,8 +57,8 @@ class _signupState extends State<signup> {
                 child: const CircularProgressIndicator(),
               ),
             )
-          : SingleChildScrollView(
-              child: Column(
+          : ListView(physics: BouncingScrollPhysics(), children: [
+              Column(
                 children: [
                   SizedBox(
                     height: size.height / 80,
@@ -144,7 +146,7 @@ class _signupState extends State<signup> {
                   )
                 ],
               ),
-            ),
+            ]),
     );
   }
 

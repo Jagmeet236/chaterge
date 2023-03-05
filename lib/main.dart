@@ -2,11 +2,17 @@ import 'package:chat_app/view/splash_Screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-late Size mq;
+import 'package:flutter/services.dart';
+
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp();
-  runApp(MyApp());
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+  SystemChrome.setPreferredOrientations(
+          [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
+      .then((value) {
+    Firebase.initializeApp();
+    runApp(const MyApp());
+  });
 }
 
 class MyApp extends StatefulWidget {
@@ -23,14 +29,14 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: "Chaterge",
       theme: ThemeData(
-        appBarTheme: const AppBarTheme(
-         titleTextStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.normal,fontSize: 16),
-          centerTitle: true,
-          elevation: 1,
-          iconTheme: IconThemeData(color: Colors.black),
-          backgroundColor: Colors.white,
-        )
-      ),
+          appBarTheme: const AppBarTheme(
+        titleTextStyle: TextStyle(
+            color: Colors.black, fontWeight: FontWeight.normal, fontSize: 16),
+        centerTitle: true,
+        elevation: 1,
+        iconTheme: IconThemeData(color: Colors.black),
+        backgroundColor: Colors.white,
+      )),
       home: SplashScreen(),
     );
   }

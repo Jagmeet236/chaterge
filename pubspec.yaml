@@ -32,6 +32,9 @@ dependencies:
   liquid_swipe:
   custom_floating_action_button:
   google_fonts:
+  google_sign_in: ^6.0.2
+  fluttertoast: ^8.0.7
+  toast:
 
 
 flutter_icons:

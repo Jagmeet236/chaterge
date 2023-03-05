@@ -1,8 +1,14 @@
+import 'dart:io';
+
 import 'package:chat_app/Authentication/Firebase_functions.dart';
 import 'package:chat_app/Authentication/SignUp_screen.dart';
+import 'package:chat_app/utils/dialog.dart';
 import 'package:chat_app/view/Home_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../animation/animation_screen.dart';
 import '../animation/page-transition_screen.dart';
@@ -28,10 +34,12 @@ class _loginscreenState extends State<loginscreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: false,
-        title: const Text(
+        title: Text(
           "Welcome To Chaterge...",
-          style: TextStyle(
-              letterSpacing: 1, fontSize: 25, fontWeight: FontWeight.w400),
+          style: GoogleFonts.actor(
+              fontSize: 25, fontWeight: FontWeight.w500, letterSpacing: 1
+              // fontStyle: FontStyle.italic,
+              ),
         ),
         elevation: 0,
       ),
@@ -43,8 +51,8 @@ class _loginscreenState extends State<loginscreen> {
                 child: const CircularProgressIndicator(),
               ),
             )
-          : SingleChildScrollView(
-              child: Column(
+          : ListView(physics: BouncingScrollPhysics(), children: [
+              Column(
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 18.0),
@@ -105,7 +113,12 @@ class _loginscreenState extends State<loginscreen> {
                     child: Center(
                       child: FloatingActionButton.extended(
                           elevation: 1,
-                          onPressed: () {},
+                          onPressed: () {
+                            Dialogs.showProgressBar(context);
+                            loginWithGoogle(context).then(
+                              (value) => Navigator.pop(context),
+                            );
+                          },
                           backgroundColor: Colors.white,
 
                           // icon: Icon(Icons.add),
@@ -131,7 +144,7 @@ class _loginscreenState extends State<loginscreen> {
                               ])),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   Container(
@@ -155,7 +168,7 @@ class _loginscreenState extends State<loginscreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Padding(
-                          padding: EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(8.0),
                           child: Text(
                             "Create An Account?",
                             style: GoogleFonts.actor(
@@ -170,7 +183,7 @@ class _loginscreenState extends State<loginscreen> {
                   )
                 ],
               ),
-            ),
+            ]),
     );
   }
 
@@ -242,5 +255,122 @@ class _loginscreenState extends State<loginscreen> {
         ),
       ),
     );
+  }
+}
+
+Future loginWithGoogle(context) async {
+  FirebaseServices services = FirebaseServices();
+  FirebaseAuth _auth = FirebaseAuth.instance;
+
+  final googleSignIn = GoogleSignIn(scopes: ['email']);
+  try {
+    await InternetAddress.lookup('google.com');
+    final googleSignInAccount = await googleSignIn.signIn();
+    if (googleSignInAccount == null) {
+      return false;
+    }
+    final googleSignInAuthentication = await googleSignInAccount.authentication;
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleSignInAuthentication.accessToken,
+      idToken: googleSignInAuthentication.idToken,
+    );
+    await FirebaseAuth.instance
+        .signInWithCredential(credential)
+        .then((value) => {
+              if (value != null)
+                {
+                  services.getuserId(value.user!.uid).then((snapshot) async => {
+                        if (snapshot.exists)
+                          {
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (_) => const HomeScreen()),
+                                (route) => false),
+                          }
+                        else
+                          {
+                            _createUser(
+                              googleSignInAccount.email,
+                              value.user!.uid,
+                              googleSignInAccount.displayName,
+                            ),
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (_) => const HomeScreen()),
+                                (route) => false),
+                          }
+                      })
+                }
+            });
+  } on FirebaseAuthException catch (e) {
+    switch (e.code) {
+      case 'account-exists-with-different-credential':
+        Dialogs.showSnackBar(context, 'Account Already exist');
+        break;
+      case 'invalid-credential':
+        Dialogs.showSnackBar(context, 'Unknown error has occurred');
+        break;
+      case 'Internet Connection':
+        Dialogs.showSnackBar(context,
+            "Something went wrong please check your internet connection");
+        break;
+      case 'user-disabled':
+        Dialogs.showSnackBar(
+            context, 'The user you tried to log into is disabled');
+        break;
+      case 'user-not-found':
+        Dialogs.showSnackBar(
+            context, 'The user you tried to log into is not found');
+        break;
+    }
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: const Text('Log in with google failed'),
+              content: Text(
+                'Log in with google failed',
+                style: GoogleFonts.acme(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  // fontStyle: FontStyle.italic,
+                ),
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Ok'))
+              ],
+            ));
+  }
+}
+
+void _createUser(
+  email,
+  uid,
+  name,
+) async {
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  try {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(_auth.currentUser!.uid)
+        .set({
+      "name": name,
+      "email": email,
+      "uid": _auth.currentUser!.uid,
+      "status": "unavalible"
+    }).whenComplete(() => Dialogs.showToast('Welcome ' + name));
+  } on FirebaseAuthException catch (e) {
+    if (e.code == 'weak-password') {
+      Dialogs.showToast('The password provided is too weak.');
+    } else if (e.code == 'email-already-in-use') {
+      Dialogs.showToast('The account already exists for that email.');
+    } else {
+      Dialogs.showToast('An error occurred: ${e.message}');
+    }
+  } on SocketException catch (e) {
+    Dialogs.showToast('No internet connection available');
   }
 }
